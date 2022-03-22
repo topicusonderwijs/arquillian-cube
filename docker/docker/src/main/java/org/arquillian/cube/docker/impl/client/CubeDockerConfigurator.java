@@ -74,6 +74,11 @@ public class CubeDockerConfigurator {
         }
 
         Map<String, String> config = arquillianDescriptor.extension(EXTENSION_NAME).getExtensionProperties();
+        if(config.get(CubeDockerConfiguration.DOCKER_URI).equals("npipe:////./pipe/docker_engine"))
+        {
+        	config.put(CubeDockerConfiguration.DOCKER_URI, "tcp://localhost:2375");
+        	config.put(CubeDockerConfiguration.DOCKER_SERVER_IP, "localhost");
+        }
         CubeDockerConfigurationResolver resolver = new CubeDockerConfigurationResolver(topInstance.get(),
             dockerMachineInstance.get(), boot2DockerInstance.get(), new DefaultDocker(),
             operatingSystemInstanceProducer.get());
